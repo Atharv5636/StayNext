@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema({
   comments: {
     type: String,
-    required: true, // make it mandatory
-    trim: true, // removes extra spaces
+    required: true,
+    trim: true,
   },
   rating: {
     type: Number,
