@@ -1,0 +1,87 @@
+<% layout("/layout/boilerplate.ejs")%>
+<body>
+  <div class="listing_details">
+    <h2><%= myListings.title %></h2>
+
+    <img
+      class="listing_image"
+      src="<%= myListings.image.url %>"
+      alt="Listing Image"
+    />
+
+    <p><b>Description:</b> <%= myListings.description %></p>
+
+    <div class="locn">
+      <p><b>Location:</b> <%= myListings.location %></p>
+      <p><b>Country:</b> <%= myListings.country %></p>
+    </div>
+
+    <p><b>Price:</b> $<%= myListings.price %>/night</p>
+
+    <div class="edit_delete_btn">
+      <form
+        action="/listings/<%= myListings._id %>?_method=DELETE"
+        method="POST"
+      >
+        <button class="delete_btn">DELETE</button>
+      </form>
+
+      <form action="/listings/<%= myListings._id %>/edit" method="GET">
+        <button class="edit_btn">EDIT</button>
+      </form>
+    </div>
+
+    <hr />
+    <hr />
+    <hr />
+    <!-- //form review -->
+
+    <div class="createReview">
+      <h4>Leave a Review</h4>
+      <form action="/listings/<%= myListings._id %>/reviews" method="POST">
+        <div class="rating-review">
+          <label for="rating">Rating</label>
+          <input
+            type="range"
+            id="rating"
+            name="review[rating]"
+            min="1"
+            max="5"
+            step="1"
+            required
+          />
+        </div>
+
+        <div class="comment-review">
+          <label for="comments">Comments</label>
+          <textarea
+            id="comments"
+            name="review[comments]"
+            cols="30"
+            rows="5"
+            placeholder="Write your thoughts..."
+            required="required"
+          ></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+
+      <!-- reviews per listing -->
+      <h4>All Reviews</h4>
+      <% for(let review of myListings.reviews) {%>
+      <div class="allReviews">
+        <p><b>Rating:</b> <%= review.rating %> / 5</p>
+        <p><b>Comments:</b> <%= review.comments %></p>
+        <form
+          action="/listings/<%= myListings._id %>/reviews/<%= review._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button>Delete</button>
+        </form>
+        <hr />
+      </div>
+      <% } %>
+    </div>
+  </div>
+</body>

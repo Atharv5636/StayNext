@@ -1,0 +1,17 @@
+<% layout("/layout/boilerplate.ejs")%>
+<%= success %>
+<body>
+  <div class="main_card_container">
+    <% for( list of allListings) {%>
+
+    <div class="main_card">
+      <a class="show_link" href="/listings/<%= list._id %>">
+        <img src="<%= list.image.url %>" alt="" />
+        <p><%= list.title %></p>
+        <p>Price: $<%= list.price %></p>
+      </a>
+    </div>
+
+    <%}%>
+  </div>
+</body>
