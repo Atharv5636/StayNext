@@ -25,7 +25,7 @@ async function findListingOrThrow(id) {
 }
 
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
+  const allListings = await Listing.find({}).populate("owner");
   res.render("listings/index.ejs", { allListings });
 };
 
@@ -35,6 +35,7 @@ module.exports.renderNewForm = async (req, res) => {
 
 module.exports.createListing = async (req, res) => {
   const newListing = new Listing(buildListingData(req.body));
+  newListing.owner = req.user._id;
 
   await newListing.save();
   req.flash("success", "Successfully made a new listing");
@@ -47,7 +48,14 @@ module.exports.renderEditForm = async (req, res) => {
 };
 
 module.exports.showListing = async (req, res) => {
-  const myListings = await Listing.findById(req.params.id).populate("reviews");
+  const myListings = await Listing.findById(req.params.id)
+    .populate("owner")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+      },
+    });
 
   if (!myListings) {
     throw new ExpressError(404, "Listing not found");

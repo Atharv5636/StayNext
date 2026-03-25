@@ -23,6 +23,10 @@ const listingSchema = new mongoose.Schema({
   price: Number,
   location: String,
   country: String,
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,

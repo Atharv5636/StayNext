@@ -6,4 +6,15 @@
   <a href="/"><button>Home</button></a>
   <a href="/listings"><button>All Listings</button></a>
   <a href="/listings/new"><button>Add New Listing</button></a>
+
+  <div class="auth_nav">
+    <% if (currentUser) { %>
+      <span class="nav_user">Hi, <%= currentUser.username %></span>
+      <a href="/auth/logout"><button>Logout</button></a>
+    <% } else { %>
+      <a href="/auth/login"><button>Login</button></a>
+      <a href="/auth/signup"><button>Signup</button></a>
+      <a href="/auth/google"><button class="google_btn">Google</button></a>
+    <% } %>
+  </div>
 </div>

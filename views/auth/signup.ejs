@@ -1,0 +1,33 @@
+<% layout("/layout/boilerplate.ejs")%>
+<div class="edit_form_container">
+  <div class="edit_form auth_card">
+    <div class="heading_form">
+      <h2>Signup</h2>
+      <p>Create a local account to manage your listings and reviews.</p>
+    </div>
+
+    <form action="/auth/signup" method="POST" class="auth_form">
+      <div class="form_group">
+        <label for="name">Full Name</label>
+        <input id="name" type="text" name="name" required />
+      </div>
+
+      <div class="form_group">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" required />
+      </div>
+
+      <div class="form_group">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" required />
+      </div>
+
+      <div class="form_group">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" minlength="6" required />
+      </div>
+
+      <button class="submit_btn" type="submit">Create Account</button>
+    </form>
+  </div>
+</div>

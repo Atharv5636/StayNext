@@ -36,8 +36,11 @@ This project was built as a hands-on practice application to strengthen full-sta
 - Delete listings
 - Add reviews with rating and comments
 - Delete reviews from a listing
-- Validate incoming listing and review data with Joi
-- Show success flash messages for user actions
+- Local authentication with signup, login, and logout
+- Google authentication with Passport
+- Ownership-based authorization for listings and reviews
+- Validate incoming listing and review input with Joi
+- Show success and error flash messages
 - Seed the database with sample listing data
 - Automatically remove associated reviews when a listing is deleted
 
@@ -50,8 +53,10 @@ This project was built as a hands-on practice application to strengthen full-sta
 - EJS
 - EJS-Mate
 - Joi
+- Passport
 - express-session
 - connect-flash
+- bcrypt
 - method-override
 
 ## Project Structure
@@ -59,26 +64,56 @@ This project was built as a hands-on practice application to strengthen full-sta
 ```text
 .
 |-- app.js
+|-- config/
+|   |-- db.js
+|   |-- passport.js
+|   `-- session.js
+|-- controllers/
+|   |-- auth.js
+|   |-- listings.js
+|   `-- reviews.js
 |-- init/
+|   |-- backfillOwnership.js
 |   |-- data.js
 |   `-- index.js
-|-- model/
+|-- middleware/
+|   `-- index.js
+|-- models/
 |   |-- listing.js
-|   `-- review.js
+|   |-- review.js
+|   `-- user.js
 |-- public/
 |   `-- CSS/
 |       `-- style.css
 |-- routes/
+|   |-- auth.js
+|   |-- listings.js
+|   `-- reviews.js
 |-- utils/
 |   |-- ExpressError.js
 |   `-- wrapAsync.js
 |-- views/
+|   |-- auth/
 |   |-- includes/
 |   |-- layout/
 |   `-- listings/
+|-- .env.example
 |-- package.json
 `-- schema.js
 ```
+
+## Environment Variables
+
+Create a `.env` file using `.env.example` as a template.
+
+Required values:
+
+- `MONGO_URI`
+- `SESSION_SECRET`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_CALLBACK_URL`
+- `BACKFILL_USER_EMAIL` for the ownership migration script
 
 ## Getting Started
 
@@ -95,7 +130,7 @@ npm install
 
 ### Run Locally
 
-Start MongoDB locally, then run:
+Start MongoDB locally, create your `.env`, then run:
 
 ```bash
 npm run dev
@@ -112,15 +147,31 @@ http://localhost:8080
 To populate the app with sample listing data:
 
 ```bash
-node init/index.js
+npm run seed
+```
+
+### Backfill Ownership for Legacy Data
+
+If you created listings or reviews before auth/ownership was added, assign them to an existing user by setting `BACKFILL_USER_EMAIL` in `.env` and running:
+
+```bash
+npm run backfill:ownership
 ```
 
 ## Available Scripts
 
 - `npm run dev` - Run the app with Nodemon
 - `npm start` - Run the app with Nodemon
+- `npm run seed` - Seed sample listings
+- `npm run backfill:ownership` - Assign missing listing/review ownership to an existing user
 
 ## Core Functionality
+
+### Authentication
+
+- Local signup/login/logout with Passport Local and bcrypt
+- Google login with Passport Google OAuth 2.0
+- Session-based login persistence
 
 ### Listings
 
@@ -139,41 +190,18 @@ node init/index.js
 
 ## Current Limitations
 
-This repository currently focuses on listings and reviews only. The following are not implemented yet:
+This repository currently focuses on listings, reviews, and authentication. The following are not implemented yet:
 
-- User authentication
-- Authorization and ownership checks
-- Image uploads with cloud storage
+- Cloud image uploads with storage providers
 - Map or geocoding integration
-- Search and filtering
+- Search and advanced filtering
 - Booking and payment flow
-- Production-ready environment configuration
 - Automated tests
-
-## Screenshots
-
-Add screenshots here after pushing to GitHub for a stronger portfolio presentation.
-
-Suggested sections:
-
-- Home or all listings page
-- Listing details page
-- Add listing form
-- Reviews section
-
-## Future Improvements
-
-- Move secrets and configuration into environment variables
-- Refactor routes into separate router files
-- Add authentication and authorization
-- Improve validation feedback in the UI
-- Add responsive UI improvements
-- Add tests for routes and validation
 
 ## Notes
 
-- The app currently connects to a local MongoDB database at `mongodb://127.0.0.1:27017/wonderlust`
-- Session settings are currently defined directly in the code for local development
+- Google OAuth requires valid Google Cloud credentials in `.env`
+- Existing legacy data may need the ownership backfill script once
 - This project is best presented as a learning project or portfolio CRUD application
 
 ## License

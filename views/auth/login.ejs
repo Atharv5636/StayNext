@@ -1,0 +1,28 @@
+<% layout("/layout/boilerplate.ejs")%>
+<div class="edit_form_container">
+  <div class="edit_form auth_card">
+    <div class="heading_form">
+      <h2>Login</h2>
+      <p>Sign in with your account or continue with Google.</p>
+    </div>
+
+    <form action="/auth/login" method="POST" class="auth_form">
+      <div class="form_group">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" required />
+      </div>
+
+      <div class="form_group">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" required />
+      </div>
+
+      <button class="submit_btn" type="submit">Login</button>
+    </form>
+
+    <a href="/auth/google" class="google_login_btn">
+      <i class="fa-brands fa-google"></i>
+      <span>Login with Google</span>
+    </a>
+  </div>
+</div>

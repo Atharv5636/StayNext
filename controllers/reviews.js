@@ -10,10 +10,12 @@ module.exports.createReview = async (req, res) => {
   }
 
   const newReview = new Review(req.body.review);
+  newReview.author = req.user._id;
   await newReview.save();
   listing.reviews.push(newReview._id);
   await listing.save();
 
+  req.flash("success", "Review added successfully");
   res.redirect(`/listings/${listing._id}`);
 };
 
@@ -31,5 +33,6 @@ module.exports.deleteReview = async (req, res) => {
     throw new ExpressError(404, "Review not found");
   }
 
+  req.flash("success", "Review deleted successfully");
   res.redirect(`/listings/${id}`);
 };

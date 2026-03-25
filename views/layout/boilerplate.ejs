@@ -16,6 +16,12 @@
   <body>
     <%- include("../includes/navbar.ejs") %>
     <h1>Wanderlust : This is my Travel Website</h1>
+    <% if (success && success.length) { %>
+      <div class="flash_message success_message"><%= success[0] %></div>
+    <% } %>
+    <% if (error && error.length) { %>
+      <div class="flash_message error_message"><%= error[0] %></div>
+    <% } %>
     <div><%-body%></div>
     <%- include("../includes/footer.ejs") %>
   </body>
