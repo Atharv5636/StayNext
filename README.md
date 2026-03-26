@@ -1,12 +1,12 @@
-# Wanderlust
+# StayNest
 
 ![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5.x-000000?logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-Local%20Database-47A248?logo=mongodb&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white)
 ![EJS](https://img.shields.io/badge/View%20Engine-EJS-B4CA65)
 ![Status](https://img.shields.io/badge/Status-Learning%20Project-blue)
 
-A full-stack Airbnb-style listing application built with Node.js, Express, MongoDB, Mongoose, and EJS. Wanderlust lets users browse rental listings, create and manage properties, and leave reviews through a simple server-rendered interface.
+A full-stack Airbnb-style listing application built with Node.js, Express, MongoDB, Mongoose, and EJS. StayNest lets users browse rental listings, create and manage properties, and leave reviews through a simple server-rendered interface.
 
 ## Resume-Ready Description
 
@@ -108,8 +108,8 @@ Create a `.env` file using `.env.example` as a template.
 
 Required values:
 
-- `MONGO_URI`
-- `SESSION_SECRET`
+- `DB_URL`
+- `SECRET`
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `GOOGLE_CALLBACK_URL`
@@ -120,7 +120,7 @@ Required values:
 ### Prerequisites
 
 - Node.js 18 or later
-- MongoDB installed and running locally
+- A MongoDB Atlas cluster and connection string
 
 ### Installation
 
@@ -130,7 +130,7 @@ npm install
 
 ### Run Locally
 
-Start MongoDB locally, create your `.env`, then run:
+Create your `.env` from `.env.example`, paste your MongoDB Atlas connection string into `DB_URL`, then run:
 
 ```bash
 npm run dev
@@ -207,3 +207,4 @@ This repository currently focuses on listings, reviews, and authentication. The 
 ## License
 
 This project is intended for educational and portfolio use.
+

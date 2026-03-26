@@ -33,17 +33,36 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdn.tailwindcss.com"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
-        imgSrc: ["'self'", "data:", "blob:", "https:", "https://res.cloudinary.com"],
-        fontSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+        scriptSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://cdn.tailwindcss.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https:",
+          "https://res.cloudinary.com",
+        ],
+        fontSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+        ],
         connectSrc: ["'self'"],
         objectSrc: ["'none'"],
         frameAncestors: ["'self'"],
         upgradeInsecureRequests: [],
       },
     },
-  })
+  }),
 );
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -81,6 +100,4 @@ app.use("/listings/:id/reviews", reviewRoutes);
 app.all(/.*/, notFound);
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`port is listening on ${port}`);
-});
+app.listen(port, () => console.log("Server running"));

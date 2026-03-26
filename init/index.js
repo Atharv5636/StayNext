@@ -1,24 +1,35 @@
 require("dotenv").config();
 
 const mongoose = require("mongoose");
-const Listing = require("../models/listing.js");
-const initData = require("./data.js");
+const Listing = require("../models/listing");
+const User = require("../models/user");
+const createSampleListings = require("./data");
 
-async function main() {
-  const mongoUri = process.env.DB_URL || "mongodb://127.0.0.1:27017/wonderlust";
-  await mongoose.connect(mongoUri);
-  console.log("Database connection established");
+const mongoUri = process.env.DB_URL || "mongodb://127.0.0.1:27017/wonderlust";
+const fallbackOwnerId = new mongoose.Types.ObjectId("64c13ab08edf48a008793cac");
+
+async function getSeedOwnerId() {
+  const existingUser = await User.findOne({});
+  return existingUser ? existingUser._id : fallbackOwnerId;
 }
-main()
-  .then(() => {
-    console.log("connection db successful");
-  })
-  .catch((err) => console.log(err));
 
-const initDB = async () => {
-  await Listing.deleteMany({});
-  await Listing.insertMany(initData);
-  console.log("Database initialized with sample data");
-  await mongoose.connection.close();
-};
-initDB();
+async function seedDatabase() {
+  await mongoose.connect(mongoUri);
+
+  try {
+    const ownerId = await getSeedOwnerId();
+    const sampleListings = createSampleListings(ownerId);
+
+    await Listing.deleteMany({});
+    await Listing.insertMany(sampleListings);
+
+    console.log("Database seeded");
+  } finally {
+    await mongoose.connection.close();
+  }
+}
+
+seedDatabase().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
